@@ -455,7 +455,7 @@ function filterByTime() {
   var geocoder = new google.maps.Geocoder();
   var origin = document.getElementById('time-filter-input').value;
 
-  if (origin == '') {
+  if (origin === '') {
     window.alert('You must enter an origin!');
   } else {
     hideParks();
