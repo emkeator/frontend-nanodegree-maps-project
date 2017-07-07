@@ -94,7 +94,7 @@ a:hover {
   color: #aca086;
 }
 
-
+/*Media Queries for Responsiveness*/
 @media screen and (min-width: 550px) {
   #map {
     height: 600px;
@@ -124,9 +124,6 @@ a:hover {
 
   #parks-list {
     font-size: 100%;
-    /*border-style: solid;
-    border-width: thin;
-    border-color: red;*/
   }
 
   #parks-list ul {

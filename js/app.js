@@ -2,6 +2,7 @@
 var map;
 var markers = [];
 var originMarker;
+//I chose to hardcode the places and their info
 var places = [
   {
     "name": "Arches National Park",
@@ -79,6 +80,7 @@ var places = [
     "attractions": "incredibly steep mountains rising straight up above Snake River"
   }
 ];
+// Style a customized version of one from Snazzy Maps, "Lost in the desert" by Diana Caballero: https://snazzymaps.com/style/93/lost-in-the-desert
 var styles = [
     {
         "elementType": "labels",
@@ -289,34 +291,36 @@ var viewModel = {
 };
 
 viewModel.headerTitle('Utah National Park Nexis');
+//Create an interactive list of places on the map
 for (var curPark = 0; curPark < places.length; curPark++) {
   var entryString = '<a href="#map" onclick="clickPark(' + curPark +');"><strong>' + places[curPark].name + '</strong></a>';
   viewModel.parksList.push({ "entry": entryString });
-};
+}
 viewModel.footerSection('Created by Emily Keator');
 
 ko.applyBindings(viewModel);
 
 
-//All Javascript below works with Google Maps API
+//All Javascript below works with Google Maps API, so I chose not to use Knockout
 function initMap() {
+  //Center map on a point roughly in the center of Utah
   var mapCenter = {lat: 39.372571, lng: -111.579500};
 
   map = new google.maps.Map(document.getElementById('map'), {
           zoom: 6,
           center: mapCenter,
-
-          // Style from Snazzy Maps, "Lost in the desert" by Diana Caballero: https://snazzymaps.com/style/93/lost-in-the-desert
           styles: styles
         });
 
   var infoWindow = new google.maps.InfoWindow();
 
+  //Create 3 different colored icons for regular, highlighted, and origin point for when filtering by time
   var iconList =[createIcon('marker-pin-google.svg', 36, 34), createIcon('highlight-marker-pin-google.svg', 36, 34), createIcon('origin-pin-google.svg', 36, 34)];
 
+  //Create each place marker
   for (var i = 0; i < places.length; i++) {
     var position = places[i].position;
-    var title = places[i].name
+    var title = places[i].name;
 
     var marker = new google.maps.Marker({
         map: map,
@@ -329,19 +333,26 @@ function initMap() {
 
     markers.push(marker);
 
+
+    //JS Hint doesn't like my use of the inline function, but this is how
+    //we learned to do this through the Udacity videos on the Google APIs
     marker.addListener('click', function() {
         fillInfoWindow(this, infoWindow, iconList);
     });
 
+    //Highlight when moused-over
     marker.addListener('mouseover', function() {
       this.setIcon(iconList[1]);
     });
 
+    //Set back to normal when not moused-over
     marker.addListener('mouseout', function() {
       this.setIcon(iconList[0]);
     });
   }
 
+  //Initialize a placeholder for the origin marker that can then
+  //be changed as needed
   originMarker = new google.maps.Marker({
     map: null,
     icon: iconList[2],
@@ -356,13 +367,15 @@ function initMap() {
     resetMap();
   });
 
-};
+}
 
+//Tie a trigger so that map marker animates when corresponding list element is clicked
 function clickPark(id) {
   google.maps.event.trigger(markers[id], 'click');
   markers[id].setAnimation(google.maps.Animation.DROP);
 }
 
+//Display infowindow function, called when map marker is clicked/triggered
 function fillInfoWindow(marker, infowindow, iconList) {
     if (infowindow.marker != marker) {
       infowindow.marker = marker;
@@ -375,8 +388,9 @@ function fillInfoWindow(marker, infowindow, iconList) {
           infowindow.marker = null;
       });
     }
-};
+}
 
+//Function to create cutom-colored map-marker icon
 function createIcon(path, sizeX, sizeY) {
     var markerImage = new google.maps.MarkerImage(
       path,
@@ -387,20 +401,24 @@ function createIcon(path, sizeX, sizeY) {
     return markerImage;
 }
 
+//Hides all parks to allow filtering
 function hideParks() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(null);
   }
 }
 
+//Hides the list of park so that only relevant parks/distances will be shown
 function hideParkList() {
   document.getElementById('parks-list').style.display = "none";
 }
 
+//Resets the list of parks back to original states
 function showParksList() {
   document.getElementById('parks-list').style.display = "block";
 }
 
+//Resets the map so that all parks are shown
 function showParks() {
   var mapBounds = new google.maps.LatLngBounds();
 
@@ -411,6 +429,8 @@ function showParks() {
   map.fitBounds(mapBounds);
 }
 
+//Calls the showParks() and showParksList() functions, and clears other info
+//and the input areas to reset the page
 function resetMap() {
   originMarker.setMap(null);
   originMarker.location = null;
@@ -420,8 +440,10 @@ function resetMap() {
   showParksList();
 }
 
+//Calls helper functions to filter various park locations within set distance
+//of the origin point, hiding all others and the list, and marking the origin
 function filterByTime() {
-  var distanceMatrixService = new google.maps.DistanceMatrixService;
+  var distanceMatrixService = new google.maps.DistanceMatrixService();
   var geocoder = new google.maps.Geocoder();
   var origin = document.getElementById('time-filter-input').value;
 
@@ -451,11 +473,7 @@ function filterByTime() {
   }
 }
 
-
-//add clickable events
-//add CSS
-
-
+//Sets the origin point on the map with special origin marker
 function markOrigin(geocoder, origin) {
   geocoder.geocode( {'address': origin}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
@@ -468,6 +486,7 @@ function markOrigin(geocoder, origin) {
   });
 }
 
+//Helper function to display only the markers within filtered time of origin
 function displayMarkersWithinTime(response) {
         var timeRestriction = document.getElementById('max-time').value;
         var origin = response.originAddresses;
@@ -504,7 +523,9 @@ function displayMarkersWithinTime(response) {
             }
           }
         }
-        distanceInfo += '</ul></div>'
+        //Ensures the div holding filtered results is empty and then adds
+        //the current parks that fit the parameters to the div
+        distanceInfo += '</ul></div>';
         $('#pre-distance-info-div').empty();
         $('#pre-distance-info-div').append(distanceInfo);
 
