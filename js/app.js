@@ -363,6 +363,14 @@ function initMap() {
     filterByTime();
   });
 
+  $('body').on('keypress', 'input', function(args) {
+    if (args.keyCode == 13) {
+        $("#time-filter-go").click();
+        return false;
+    }
+  });
+
+
   document.getElementById('time-filter-reset').addEventListener('click', function() {
     resetMap();
   });
