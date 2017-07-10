@@ -1,3 +1,5 @@
+/*jshint loopfunc: true */
+
 //Some initial variables
 var map;
 var markers = [];
