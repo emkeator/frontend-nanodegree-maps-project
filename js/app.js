@@ -336,18 +336,6 @@ function initMap() {
 
     markers.push(marker);
 
-    //The code block below is not how I would have liked to write this,
-    //but the Udacity portal refused to allow my submission to be graded
-    //unless I did it this way, rather than how we were shown in the videos
-    // marker.addListener('click', fillInfoWindow(marker, infoWindow, iconList) );
-    //
-    // //Highlight when moused-over
-    // marker.addListener('mouseover', mouseListenerCallback(marker, iconList[1]) );
-    //
-    // //Set back to normal when not moused-over
-    // marker.addListener('mouseout', mouseListenerCallback(marker, iconList[0]) );
-
-
     //JS Hint doesn't like my use of the inline function, but this is how
     //we learned to do this through the Udacity videos on the Google APIs
     //UNUSABLE DUE TO UDACITY PORTAL REFUSING TO GRADE:
@@ -399,11 +387,6 @@ function initMap() {
 
 }
 
-//Callback funtion for highlight/unhighlight marker
-function mouseListenerCallback(marker, icon) {
-  console.log(marker.title +" ");
-  marker.setIcon(icon);
-}
 
 //Display infowindow function, called when map marker is clicked/triggered
 function fillInfoWindow(marker, infowindow) {
