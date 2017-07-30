@@ -7,13 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Utah's National Parks</title>
 
-  <link rel="stylesheet" href="style.css"></link>
+  <link rel="stylesheet" href="style2.css"></link>
   <link href="https://fonts.googleapis.com/css?family=Karla|Zilla+Slab" rel="stylesheet">
 </head>
 
 <body>
-  <header class="site-header" data-bind="text: headerTitle">
-  </header>
+  <header class="site-header">Utah National Park Nexis</header>
 
   <div class="dropdown-menu">
     <span>National Parks Within:</span>
@@ -29,28 +28,42 @@
 
     </select>
     <span>of</span>
-    <input id="time-filter-input" type="text" placeholder="Ex: Salt Lake City">
-    <input id="time-filter-go" type="button" value="Go">
-    <input id="time-filter-reset" type="button" value="Clear">
+    <input id="time-filter-input" data-bind="textInput: originPoint" type="text" placeholder="Ex: Salt Lake City">
+    <input id="time-filter-go" data-bind="click: applyTimeFilter" type="button" value="Go">
+    <input id="time-filter-reset" data-bind="click: resetTimeFilter" type="button" value="Clear">
   </div>
-
-  <section id="parks-list">
-    <ul data-bind="foreach: parksList">
-      <li data-bind="html: entry"></li>
-    </ul>
-  </section>
-
-  <div id="pre-distance-info-div"></div>
 
   <div id="map"></div>
 
-  <footer class="footer" data-bind="text: footerSection"></footer>
+  <section id="parks-list">
+    <span>Search for a Park: </span><input id="list-filter-input" data-bind="textInput: listMatch" type="text" placeholder="Ex: Zion National Park">
+    <ul>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(0);}"><strong>Arches National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(1);}"><strong>Bryce Canyon National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(2);}"><strong>Canyonlands National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(3);}"><strong>Capitol Reef National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(4);}"><strong>Zion National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(5);}"><strong>Rocky Mountain National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(6);}"><strong>Great Basin National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(7);}"><strong>Death Valley National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(8);}"><strong>Mesa Verde National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(9);}"><strong>Grand Canyon National Park, North Rim</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(10);}"><strong>Grand Canyon National Park, South Rim</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(11);}"><strong>Yosemite National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(12);}"><strong>Black Canyon of the Gunnison National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(13);}"><strong>Yellowstone National Park</strong></a></li>
+      <li class="parks-list-item"><a href="#map" data-bind="click: function() {clickPark(14);}"><strong>Grand Teton National Park</strong></a></li>
+    </ul>
+  </section>
+
+  <footer class="footer">Created by Emily Keator</footer>
 
   <script type='text/javascript' src='js/libs/knockout-3.4.2.js'></script>
   <script type='text/javascript' src='js/libs/jquery.min.js'></script>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCIAnE8wIMEOs6boGiWbqseU7vSLi_nM1I&callback=initMap"></script>
-  <script type='text/javascript' src='js/app.js'></script>
+  <!-- <script type='text/javascript' src='js/app.js'></script> -->
+  <script type='text/javascript' src='js/app2.js'></script>
 
 </body>
 </html>

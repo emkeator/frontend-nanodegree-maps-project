@@ -1,5 +1,8 @@
 /*jshint loopfunc: true */
 
+//add like a wikipedia api or something??
+//click on list is KO
+
 //Some initial variables
 var map;
 var markers = [];
@@ -9,77 +12,92 @@ var places = [
   {
     "name": "Arches National Park",
     "position": {lat: 38.616011, lng: -109.619658},
-    "attractions": "red rock formations such as the famous Delicate Arch"
+    "attractions": "red rock formations such as the famous Delicate Arch",
+    "imgsrc": "https://source.unsplash.com/1600x900/?arches,national,park"
   },
   {
     "name": "Bryce Canyon National Park",
     "position": {lat: 37.640143, lng: -112.169235},
-    "attractions": "wind-carved hoodoos filling a red-rock canyon"
+    "attractions": "wind-carved hoodoos filling a red-rock canyon",
+    "imgsrc": "https://source.unsplash.com/1600x900/?bryce,canyon,national,park"
   },
   {
     "name": "Canyonlands National Park",
     "position": {lat: 38.459074, lng: -109.820500},
-    "attractions": "red rock canyons and the famous Horseshoe Bend"
+    "attractions": "red rock canyons and the famous Horseshoe Bend",
+    "imgsrc": "https://source.unsplash.com/1600x900/?canyonlands,national,park"
   },
   {
     "name": "Capitol Reef National Park",
     "position": {lat: 38.291872, lng: -111.261994},
-    "attractions": "gorgeous red rock landscape and Hickman Bridge"
+    "attractions": "gorgeous red rock landscape and Hickman Bridge",
+    "imgsrc": "https://source.unsplash.com/1600x900/?capitol,reef,national,park"
   },
   {
     "name": "Zion National Park",
     "position": {lat: 37.201817, lng: -112.988431},
-    "attractions": "world-famous Narrows and Angel's Landing"
+    "attractions": "world-famous Narrows and Angel's Landing",
+    "imgsrc": "https://source.unsplash.com/1600x900/?zion,national,park"
   },
   {
     "name": "Rocky Mountain National Park",
     "position": {lat: 40.393260, lng: -105.686552},
-    "attractions": "explore the mountains so beautiful, John Denver wrote a song"
+    "attractions": "explore the mountains so beautiful, John Denver wrote a song",
+    "imgsrc": "https://source.unsplash.com/1600x900/?rocky,mountain,national,park"
   },
   {
     "name": "Great Basin National Park",
     "position": {lat: 39.010068, lng: -114.209032},
-    "attractions": "caves, peaks, and ancient pines"
+    "attractions": "caves, peaks, and ancient pines",
+    "imgsrc": "https://source.unsplash.com/1600x900/?great,basin,national,park"
   },
   {
     "name": "Death Valley National Park",
     "position": {lat: 36.792311, lng: -116.928338},
-    "attractions": "hottest place you'll ever go...bring water"
+    "attractions": "hottest place you'll ever go...bring water",
+    "imgsrc": "https://source.unsplash.com/1600x900/?death,valley,national,park"
   },
   {
     "name": "Mesa Verde National Park",
     "position": {lat: 37.338881, lng: -108.412092},
-    "attractions": "ruins of Anasazi cliff dwellings built into overhangs"
+    "attractions": "ruins of Anasazi cliff dwellings built into overhangs",
+    "imgsrc": "https://source.unsplash.com/1600x900/?mesa,verde,national,park"
   },
   {
     "name": "Grand Canyon National Park, North Rim",
     "position": {lat: 36.214524, lng: -112.058929},
-    "attractions": "massive canyon carved into Arizona desert"
+    "attractions": "massive canyon carved into Arizona desert",
+    "imgsrc": "https://source.unsplash.com/1600x900/?grand,canyon,national,park"
   },
   {
     "name": "Grand Canyon National Park, South Rim",
     "position": {lat: 36.052224, lng: -112.105492},
-    "attractions": "you will never see anything else like this incredibly deep canyon"
+    "attractions": "you will never see anything else like this incredibly deep canyon",
+    "imgsrc": "https://source.unsplash.com/1600x900/?grand,canyon,national,park"
   },
   {
     "name": "Yosemite National Park",
     "position": {lat: 37.931591, lng: -119.159023},
-    "attractions": "hike through the Sierra Nevada to Half-Dome and El Capitan"
+    "attractions": "hike through the Sierra Nevada to Half-Dome and El Capitan",
+    "imgsrc": "https://source.unsplash.com/1600x900/?yosemite,national,park"
   },
   {
     "name": "Black Canyon of the Gunnison National Park",
     "position": {lat: 38.580750, lng: -107.716175},
-    "attractions": "rare deep canyon with dark rock, including the famous Painted Wall"
+    "attractions": "rare deep canyon with dark rock, including the famous Painted Wall",
+    "imgsrc": "https://source.unsplash.com/1600x900/?black,canyon,national,park"
   },
   {
     "name": "Yellowstone National Park",
     "position": {lat: 44.135639, lng: -110.666785},
-    "attractions": "beautiful views, and of course, Old Faithful Geyser"
+    "attractions": "beautiful views, and of course, Old Faithful Geyser",
+    "imgsrc": "https://source.unsplash.com/1600x900/?yellowstone,national,park"
   },
   {
     "name": "Grand Teton National Park",
     "position": {lat: 43.656431, lng: -110.719146},
-    "attractions": "incredibly steep mountains rising straight up above Snake River"
+    "attractions": "incredibly steep mountains rising straight up above Snake River",
+    "imgsrc": "https://source.unsplash.com/1600x900/?grand,teton,national,park"
   }
 ];
 // Style a customized version of one from Snazzy Maps, "Lost in the desert" by Diana Caballero: https://snazzymaps.com/style/93/lost-in-the-desert
@@ -284,27 +302,21 @@ var styles = [
     {},
     {}];
 
-
-//KnockOut Handling of the Page
-var viewModel = {
-    headerTitle: ko.observable(),
-    parksList: ko.observableArray(),
-    footerSection: ko.observable()
-};
-
-viewModel.headerTitle('Utah National Park Nexis');
-//Create an interactive list of places on the map
-for (var curPark = 0; curPark < places.length; curPark++) {
-  var entryString = '<a href="#map" onclick="clickPark(' + curPark +');"><strong>' + places[curPark].name + '</strong></a>';
-  viewModel.parksList.push({ "entry": entryString });
-}
-viewModel.footerSection('Created by Emily Keator');
-
-ko.applyBindings(viewModel);
+// // var weather = $.ajax('http://api.openweathermap.org/data/2.5/weather?lat={38.616011}&lon={-109.619658}');
+//
+// var npsAPIkey = 'A43484D2-FD8D-4C14-9D9F-8A31DAC9AD6F';
+// // var npsResponse = $.ajax('https://developer.nps.gov/api/v0/alerts?parkCode=yell,yose', [npsAPIkey]);
+//
+// httpRequest = new XMLHttpRequest();
+// httpRequest.onreadystatechange = function(){
+//     // Process the server response here.
+// };
+// httpRequest.open('GET', 'https://developer.nps.gov/api/v0/alerts?parkCode=yell', true, {'Authorization': npsAPIkey});
+// httpRequest.send();
 
 
 //All Javascript below works with Google Maps API, so I chose not to use Knockout
-
+//However, a few of these functions are called by KO data-binds
 function initMap() {
   //Center map on a point roughly in the center of Utah
   var mapCenter = {lat: 39.372571, lng: -111.579500};
@@ -331,7 +343,8 @@ function initMap() {
         title: title,
         id: i,
         animation: google.maps.Animation.DROP,
-        icon: iconList[0]
+        icon: iconList[0],
+        infowindow: infoWindow
     });
 
     markers.push(marker);
@@ -369,24 +382,22 @@ function initMap() {
     position: null
   });
 
-  document.getElementById('time-filter-go').addEventListener('click', function() {
-    filterByTime();
-  });
-
-  $('body').on('keypress', 'input', function(args) {
-    if (args.keyCode == 13) {
-        $("#time-filter-go").click();
-        return false;
-    }
-  });
-
-
-  document.getElementById('time-filter-reset').addEventListener('click', function() {
-    resetMap();
-  });
-
 }
 
+//KnockOut Handling of the Page
+var viewModel = {
+    originPoint: ko.observable(""),
+    listMatch: ko.observable(""),
+    applyTimeFilter: function() {
+      filterByTime();
+    },
+    resetTimeFilter: function() {
+      resetMap();
+    }
+
+};
+
+ko.applyBindings(viewModel);
 
 //Display infowindow function, called when map marker is clicked/triggered
 function fillInfoWindow(marker, infowindow) {
@@ -394,7 +405,9 @@ function fillInfoWindow(marker, infowindow) {
       infowindow.marker = marker;
       var placeInfo = places[marker.id].attractions.charAt(0).toUpperCase() + places[marker.id].attractions.substr(1);
 
-      infowindow.setContent('<span><strong>' + marker.title.toUpperCase() + '</strong></span><p>' + placeInfo + '</p>');
+      infowindow.setContent('<span><strong>' + marker.title.toUpperCase() +
+          '</strong></span><p>' + placeInfo + '</p><div class="infowindow-picture"><img '+/*width="150px"*/'src="'+
+          places[marker.id].imgsrc +'" alt="'+marker.title+'"><p class="attribution">Photo provided Unsplash.com API</p></div>');
       infowindow.open(map, marker);
 
       infowindow.addListener('closeclick', function() {
@@ -405,7 +418,7 @@ function fillInfoWindow(marker, infowindow) {
 
 //Tie a trigger so that map marker animates when corresponding list element is clicked
 function clickPark(id) {
-  google.maps.event.trigger(markers[id], 'click');
+  fillInfoWindow(markers[id], markers[id].infowindow);
   markers[id].setAnimation(google.maps.Animation.DROP);
 }
 
@@ -427,16 +440,6 @@ function hideParks() {
   }
 }
 
-//Hides the list of park so that only relevant parks/distances will be shown
-function hideParkList() {
-  document.getElementById('parks-list').style.display = "none";
-}
-
-//Resets the list of parks back to original states
-function showParksList() {
-  document.getElementById('parks-list').style.display = "block";
-}
-
 //Resets the map so that all parks are shown
 function showParks() {
   var mapBounds = new google.maps.LatLngBounds();
@@ -448,29 +451,30 @@ function showParks() {
   map.fitBounds(mapBounds);
 }
 
-//Calls the showParks() and showParksList() functions, and clears other info
-//and the input areas to reset the page
+//Called by the ko.observable resetTimeFilter; calls the showParks() function,
+//and clears input area to reset the page
 function resetMap() {
   originMarker.setMap(null);
   originMarker.location = null;
-  $('#pre-distance-info-div').empty();
-  document.getElementById('time-filter-input').value = "";
+
+
+  viewModel.originPoint(null);
   showParks();
-  showParksList();
+  $('.parks-list-item').show();
 }
 
 //Calls helper functions to filter various park locations within set distance
-//of the origin point, hiding all others and the list, and marking the origin
+//of the origin point, hiding all others, and marking the origin
 function filterByTime() {
   var distanceMatrixService = new google.maps.DistanceMatrixService();
   var geocoder = new google.maps.Geocoder();
-  var origin = document.getElementById('time-filter-input').value;
+
+  var origin = viewModel.originPoint();
 
   if (origin === '') {
     window.alert('You must enter an origin!');
   } else {
     hideParks();
-    hideParkList();
     markOrigin(geocoder, origin);
     var destinations = [];
     for (var i = 0; i < markers.length; i++) {
@@ -513,10 +517,9 @@ function displayMarkersWithinTime(response) {
 
         var atLeastOnePark = false;
 
-        var mapBounds = new google.maps.LatLngBounds();
+        var placesToDisplay = [];
 
-        var distanceInfo = "<div class='distance-info'><ul>";
-        var infoString;
+        var mapBounds = new google.maps.LatLngBounds();
 
         var results = response.rows[0].elements;
 
@@ -525,10 +528,7 @@ function displayMarkersWithinTime(response) {
 
           if (element.status === "OK") {
 
-            var distanceText = element.distance.text;
-
             var duration = (element.duration.value / 60) / 60; //make it hours
-            var durationText = element.duration.text;
 
             if (duration <= timeRestriction) {
               markers[j].setMap(map);
@@ -536,23 +536,75 @@ function displayMarkersWithinTime(response) {
 
               atLeastOnePark = true;
 
-              infoString = '<li><strong>' + markers[j].title + ':</strong> ' + durationText + ' away, ' + distanceText + '</li>';
-              distanceInfo += infoString;
+              placesToDisplay.push(markers[j].title);
 
             }
           }
         }
-        //Ensures the div holding filtered results is empty and then adds
-        //the current parks that fit the parameters to the div
-        distanceInfo += '</ul></div>';
-        $('#pre-distance-info-div').empty();
-        $('#pre-distance-info-div').append(distanceInfo);
 
         mapBounds.extend(originMarker.position);
 
         map.fitBounds(mapBounds);
 
+        parkListDistanceFilter(placesToDisplay);
+
         if (!atLeastOnePark) {
           window.alert('We could not find any locations within that distance!');
         }
+}
+
+function parkListDistanceFilter(placeTitles) {
+    var parkListItem = $(".parks-list-item:first");
+    for (var parkNum = 0; parkNum < markers.length; parkNum++) {
+      if ( placeTitles.includes(parkListItem.text()) ){
+        parkListItem.show();
+      } else {
+        parkListItem.hide();
       }
+      parkListItem = parkListItem.next();
+    }
+}
+
+//Filters in live time the list and the markers, searching for those which
+//match the text of the search (both names, and listed attractions)
+viewModel.listMatch.subscribe(function(newValue) {
+    //loop through markers && lists to see if they match
+    newValue = newValue.toLowerCase();
+    var mapBounds = new google.maps.LatLngBounds();
+    var parkListItem = $('.parks-list-item:first');
+    for (var i = 0; i < markers.length; i++) {
+
+        var curPlaceInfo = places[i].name.toLowerCase() + places[i].attractions.toLowerCase();
+
+        if(curPlaceInfo.includes(newValue)) {
+          parkListItem.show();
+          markers[i].setMap(map);
+          markers[i].setAnimation(google.maps.Animation.DROP);
+          mapBounds.extend(markers[i].position);
+          map.fitBounds(mapBounds);
+        } else {
+          parkListItem.hide();
+          markers[i].setMap(null);
+        }
+        parkListItem = parkListItem.next();
+
+        /*OLD VERSION OF THIS FUNCTION: only filtered by name*/
+        // if(!markers[i].title.toLowerCase().includes(newValue)) {
+        //   markers[i].setMap(null);
+        // } else {
+        //   markers[i].setMap(map);
+        //   markers[i].setAnimation(google.maps.Animation.DROP);
+        //   mapBounds.extend(markers[i].position);
+        //   map.fitBounds(mapBounds);
+        // }
+
+        // if(parkListItem.text().toLowerCase().includes(newValue)) {
+        //   parkListItem.show();
+        // } else {
+        //   parkListItem.hide();
+        // }
+        // parkListItem = parkListItem.next();
+
+    }
+
+});
