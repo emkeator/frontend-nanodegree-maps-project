@@ -644,18 +644,6 @@ function displayMarkersWithinTime(response) {
     }
 }
 
-function parkListDistanceFilter(placeTitles) {
-    var parkListItem = $(".parks-list-item:first");
-    for (var parkNum = 0; parkNum < markers.length; parkNum++) {
-        if (placeTitles.includes(parkListItem.text())) {
-            parkListItem.show();
-        } else {
-            parkListItem.hide();
-        }
-        parkListItem = parkListItem.next();
-    }
-}
-
 //Filters in live time the list and the markers, searching for those which
 //match the text of the search (both names, and listed attractions)
 viewModel.listMatch.subscribe(function(newValue) {
