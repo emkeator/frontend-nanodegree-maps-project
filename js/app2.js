@@ -449,7 +449,7 @@ function fillInfoWindow(marker, infowindow) {
     if (infowindow.marker != marker) {
         infowindow.marker = marker;
         var placeInfo = places[marker.id].attractions.charAt(0).toUpperCase() + places[marker.id].attractions.substr(1);
-        var ajaxURL = 'https://api.wunderground.com/api/YOUR_API_KEY/forecast10day/q/' + places[marker.id].nearTown + '.json';
+        var ajaxURL = 'https://api.wunderground.com/api/0c66f851db7ced1d/forecast10day/q/' + places[marker.id].nearTown + '.json';
 
         //retrieve and display info from WUNDERGROUND API if it is retrievable
         $.ajax({
